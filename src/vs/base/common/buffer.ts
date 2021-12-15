@@ -14,8 +14,8 @@ let textDecoder: TextDecoder | null;
 
 export class VSBuffer {
 
-	static alloc(byteLength: number): VSBuffer {
-		if (hasBuffer) {
+	static alloc(byteLength: number, forceUseUint8Array = false): VSBuffer {
+		if (hasBuffer && !forceUseUint8Array) {
 			return new VSBuffer(Buffer.allocUnsafe(byteLength));
 		} else {
 			return new VSBuffer(new Uint8Array(byteLength));
@@ -51,7 +51,7 @@ export class VSBuffer {
 		return result;
 	}
 
-	static concat(buffers: VSBuffer[], totalLength?: number): VSBuffer {
+	static concat(buffers: VSBuffer[], totalLength?: number, forceUseUint8Array?: boolean): VSBuffer {
 		if (typeof totalLength === 'undefined') {
 			totalLength = 0;
 			for (let i = 0, len = buffers.length; i < len; i++) {
@@ -59,7 +59,7 @@ export class VSBuffer {
 			}
 		}
 
-		const ret = VSBuffer.alloc(totalLength);
+		const ret = VSBuffer.alloc(totalLength, forceUseUint8Array);
 		let offset = 0;
 		for (let i = 0, len = buffers.length; i < len; i++) {
 			const element = buffers[i];
@@ -221,8 +221,8 @@ export function bufferToReadable(buffer: VSBuffer): VSBufferReadable {
 	return streams.toReadable<VSBuffer>(buffer);
 }
 
-export function streamToBuffer(stream: streams.ReadableStream<VSBuffer>): Promise<VSBuffer> {
-	return streams.consumeStream<VSBuffer>(stream, chunks => VSBuffer.concat(chunks));
+export function streamToBuffer(stream: streams.ReadableStream<VSBuffer>, forceUseUint8Array?: boolean): Promise<VSBuffer> {
+	return streams.consumeStream<VSBuffer>(stream, chunks => VSBuffer.concat(chunks, undefined, forceUseUint8Array));
 }
 
 export async function bufferedStreamToBuffer(bufferedStream: streams.ReadableBufferedStream<VSBuffer>): Promise<VSBuffer> {

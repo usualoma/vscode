@@ -333,7 +333,7 @@ export class WebviewElement extends Disposable implements IWebview, WebviewFindD
 							return swPort.postMessage({
 								channel: ServiceWorkerMessages.didLoadResource,
 								...body
-							});
+							}, body.status === 200 ? [body.data.buffer] : []);
 						} catch (e) {
 							return swPort.postMessage({
 								channel: ServiceWorkerMessages.didLoadResource,
@@ -754,7 +754,7 @@ export class WebviewElement extends Disposable implements IWebview, WebviewFindD
 
 			switch (result.type) {
 				case WebviewResourceResponse.Type.Success:
-					const { buffer } = await streamToBuffer(result.stream);
+					const { buffer } = await streamToBuffer(result.stream, true);
 					return {
 						id,
 						status: 200,
