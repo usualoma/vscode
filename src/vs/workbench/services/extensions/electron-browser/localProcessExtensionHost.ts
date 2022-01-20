@@ -212,6 +212,11 @@ export class LocalProcessExtensionHost implements IExtensionHost {
 
 				this._extensionHostProcess = new ExtensionHostProcess(extensionHostCreationResult.id, this._extensionHostStarter);
 
+				let lang = processEnv['LANG'];
+				if (platform.isMacintosh && lang === undefined) {
+					lang = Intl.DateTimeFormat().resolvedOptions().locale;
+				}
+
 				const env = objects.mixin(processEnv, {
 					VSCODE_AMD_ENTRYPOINT: 'vs/workbench/services/extensions/node/extensionHostProcess',
 					VSCODE_PIPE_LOGGING: 'true',
@@ -221,7 +226,7 @@ export class LocalProcessExtensionHost implements IExtensionHost {
 					VSCODE_HANDLES_UNCAUGHT_ERRORS: true,
 					VSCODE_LOG_STACK: !this._isExtensionDevTestFromCli && (this._isExtensionDevHost || !this._environmentService.isBuilt || this._productService.quality !== 'stable' || this._environmentService.verbose),
 					VSCODE_LOG_LEVEL: this._environmentService.verbose ? 'trace' : this._environmentService.log,
-					'LANG': processEnv['LANG'] ?? Intl.DateTimeFormat().resolvedOptions().locale
+					'LANG': lang
 				});
 
 				if (this._environmentService.debugExtensionHost.env) {
