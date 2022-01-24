@@ -1,17 +1,13 @@
 
-if [ -z "$VSCODE_SHELL_LOGIN" ]; then
-    . ~/.bashrc
-else
-    # Imitate -l because --init-file doesn't support it:
-    # run the first of these files that exists
-    if [ -f "~/.bash_profile" ]; then
-        . ~/.bash_profile
+
+# Imitate -l because --init-file doesn't support it:
+# run the first of these files that exists
+if [ -f "~/.bash_profile" ]; then
+    . ~/.bash_profile
     elif [ -f "~/.bash_login" ]; then
-        . ~/.bash_login
+    . ~/.bash_login
     elif [ -f "~/.profile" ]; then
-        . ~/.profile
-    fi
-    VSCODE_SHELL_LOGIN=""
+    . ~/.profile
 fi
 
 IN_COMMAND_EXECUTION="1"
@@ -67,7 +63,7 @@ update_prompt
 export ORIGINAL_PROMPT_COMMAND=$PROMPT_COMMAND
 
 prompt_cmd() {
-	precmd
+    precmd
 }
 original_prompt_cmd() {
     ${ORIGINAL_PROMPT_COMMAND}
