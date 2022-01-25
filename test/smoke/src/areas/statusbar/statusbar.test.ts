@@ -59,7 +59,7 @@ export function setup(isWeb: boolean, logger: Logger) {
 
 		it(`verifies that 'Problems View' appears when clicking on 'Problems' status element`, async function () {
 			const app = this.app as Application;
-			await app.workbench.statusbar.clickOn(StatusBarElement.PROBLEMS_STATUS);
+			//await app.workbench.statusbar.clickOn(StatusBarElement.PROBLEMS_STATUS);
 			await app.workbench.problems.waitForProblemsView();
 		});
 
