@@ -2970,6 +2970,30 @@
 					},
 					"match": "([\\$\\@\\%](#)?)[0-9_]\\b",
 					"name": "variable.other.readwrite.global.special.perl"
+				},
+				{
+					"begin": "@\\{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.variable.perl"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.variable.perl"
+						}
+					},
+					"name": "variable.other.readwrite.global.perl",
+					"contentName": "meta.embedded.block.perl",
+					"patterns": [
+						{
+							"include": "#nested_braces"
+						},
+						{
+							"include": "$self"
+						}
+					]
 				}
 			]
 		}
