@@ -202,7 +202,7 @@
 		},
 		{
 			"applyEndPatternLast": 1,
-			"begin": "(?<!\\{|\\+|\\-)\\b(?=m\\s*[^\\sa-zA-Z0-9])",
+			"begin": "(?<!\\{|\\+|\\-|\\-\\>)\\b(?=m\\s*[^\\sa-zA-Z0-9])",
 			"comment": "string.regexp.find-m.perl",
 			"end": "((([egimosxradlupcn]*)))(?=(\\s+\\S|\\s*[;\\,\\#\\{\\}\\)]|\\s*$))",
 			"endCaptures": {
@@ -332,7 +332,7 @@
 					]
 				},
 				{
-					"begin": "\\G(?<!\\{|\\+|\\-)(m)(?!_)\\s*([^\\sa-zA-Z0-9'\\{\\[\\(\\<])",
+					"begin": "\\G(?<!\\{|\\+|\\-|\\-\\>)(m)(?!_)\\s*([^\\sa-zA-Z0-9'\\{\\[\\(\\<])",
 					"captures": {
 						"0": {
 							"name": "punctuation.definition.string.perl"
